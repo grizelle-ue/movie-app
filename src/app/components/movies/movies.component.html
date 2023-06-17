@@ -1,0 +1,50 @@
+<div *ngIf="!isLoading && !errorExists">
+    <div class="banner-image">
+        <img src="assets/img/banner-image.jpg" alt="banner-image">
+    </div>
+
+    <div class="d-flex gap-3 justify-content-between toggle-wrapper">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <img class="search-icon" src="assets/img/search-icon.svg" />
+            </span>
+            <input type="search" class="form-control pl-40"  [(ngModel)]="searchText"
+                placeholder="Search Movie" (keyup)="this.searchTyped.next(searchText)"/>
+        </div>
+        <mat-slide-toggle [checked]="isChecked" 
+            (change)="toggleDarkTheme($event.checked)">Change theme
+        </mat-slide-toggle>
+    </div>
+
+    <div class="d-flex gap-3 flex-wrap justify-content-center outer-container">
+        <div *ngFor="let movie of movies" (click)="open(movie)" class="cursor-pointer">
+            <app-movie-card [movie]="movie"></app-movie-card>
+        </div>
+    </div>
+    <mat-paginator [length]="totalMovies"
+        [pageSize]="10" [pageIndex]="pageNumber - 2" (page)="onPageChange($event)">
+    </mat-paginator>
+</div>
+<div class="text-center" *ngIf="!isLoading && errorExists">
+    <div class="d-flex align-items-center justify-content-center w-100" style="height: 100vh;">
+      <div>
+        <p>Oops, an error occurred!</p>
+        <button class="btn btn-dark" (click)="fetchMovies()">Please try again</button>
+      </div>
+    </div>
+</div>
+<div class="text-center" *ngIf="isLoading">
+    <div class="d-flex align-items-center justify-content-center w-100" style="height: 100vh;">
+      <div class="spinner-border" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade my-modal" tabindex="-1" role="dialog" #modal>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <app-movie-card-dialog [movie]="movie" (closeModal)="close()"></app-movie-card-dialog>
+      </div>
+    </div>
+  </div>

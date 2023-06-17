@@ -1,0 +1,41 @@
+<div class="d-flex flex-column justify-content-center align-items-center h-100vh">
+    <div class="container login-main-container d-flex justify-content-center">
+        <div class="col-sm-6 col-md-8 col-lg-5 login-box">
+            <h3 class="mb-2 login-header">Welcome back,</h3>
+            <p class="fs-12 text-charcoal mb-24">
+                Sign in to your account
+            </p>
+            <div *ngIf="isError" class="alert alert-danger fs-12" role="alert">{{errorMessage}}</div>
+            <!-- sign in form -->
+            <form [formGroup]="loginFormGroup" (keyup)="handleKeyUp($event)">
+                <!-- username input -->
+                <input class="form-control onboard-input" type="text" name="username" placeholder="Username" formControlName="username"
+                    autofocus="" autocapitalize="none" autocomplete="username" id="id_username" maxlength="100"
+                    [ngStyle]="{'border': (usernameCtrl.invalid && usernameCtrl.touched && usernameCtrl.dirty) ? '1px solid #dc3545' : '0'}"
+                    [ngClass]="{'mb-0 is-invalid': (usernameCtrl.invalid && usernameCtrl.touched && usernameCtrl.dirty)}"/>
+                <div class="invalid-feedback mt-0 ms-2 mb-2 fs-10"
+                *ngIf="(usernameCtrl.invalid && usernameCtrl.touched && usernameCtrl.dirty)">
+                    <span *ngIf="usernameCtrl.errors?.['required']">Username is required</span>
+                    <span *ngIf="usernameCtrl.errors?.['minlength']">Username must have atleast 5 characters</span>
+                </div>
+                <!-- password input -->
+                <input class="form-control onboard-input pr-32" name="password" formControlName="password" [type]="showPassword ? 'text' : 'password'"
+                    placeholder="Password" autocomplete="current-password" id="id_password" maxlength="32"
+                    [ngStyle]="{'border': (passwordCtrl.invalid && passwordCtrl.touched && passwordCtrl.dirty) ? '1px solid #dc3545' : '0'}"
+                    [ngClass]="{'mb-0 is-invalid': (passwordCtrl.invalid && passwordCtrl.touched && passwordCtrl.dirty)}"/>
+                <img [src]="showPassword ? 'assets/img/eye.svg' : 'assets/img/eye-off.svg'"  (click)="showPassword = !showPassword"
+                    style="width: 16px;height: 16px;margin-left: -30px;cursor: pointer;">
+                <div class="invalid-feedback mt-0 ms-2 mb-2 fs-12"
+                    *ngIf="(passwordCtrl.invalid && passwordCtrl.touched && passwordCtrl.dirty)">
+                    <span *ngIf="passwordCtrl.errors?.['required']">Password is required</span>
+                    <span *ngIf="passwordCtrl.errors?.['minlength']">Password must have atleast 6 characters</span>
+                </div>
+                <!-- login button -->
+                <button class="btn btn-dark w-100 login-button" (click)="login()" [disabled]="submitted || loginFormGroup.invalid">
+                    <span *ngIf="submitted" class="spinner-border spinner-border-sm" role="status"></span>
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

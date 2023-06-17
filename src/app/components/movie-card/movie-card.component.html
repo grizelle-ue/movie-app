@@ -1,0 +1,10 @@
+<div class="d-flex flex-column align-items-center card-container">
+    <div class="avatar-image">
+        <img [src]="getImage(movie.title)">
+    </div>
+    <h3 class="title text-truncate" [title]="movie.title">{{ movie.title }}</h3>
+    <span class="text-truncate description" style="max-width: 200px;">{{ movie.description }}</span>
+    <span class="genre text-truncate" [title]="movie.genres">
+        Genre: {{ movie.genres ? movie.genres : '-' }}
+    </span>
+</div>
